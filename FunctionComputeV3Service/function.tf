@@ -6,7 +6,7 @@ resource "alicloud_fcv3_function" "function" {
   timeout       = var.function_execution_timeout
   runtime       = var.function_runtime
   handler       = var.function_handler
-  role          = var.function_role_arn != "" ? var.function_role_arn : alicloud_ram_role.default_ram_role[1].arn
+  role          = var.function_role_arn != null ? var.function_role_arn : alicloud_ram_role.default_ram_role[0].arn
   disk_size     = var.function_disk_size
   cpu           = var.function_cpu
   memory_size   = var.function_memory_size
