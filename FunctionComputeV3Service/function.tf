@@ -20,9 +20,7 @@ resource "alicloud_fcv3_function" "function" {
     oss_bucket_name = alicloud_oss_bucket.function_deployment_bucket.bucket
     oss_object_name = alicloud_oss_bucket_object.function.key
   }
-  environment_variables = {
-    WELL_KNOWN_ACME_CHALLENGE_BUCKET_NAME = "qtsc-sites-staging-650c2165-4a95-b3d1-f48a-b4e4cf7d3900"
-  }
+  environment_variables = var.function_env_vars
   internet_access = true
 }
 

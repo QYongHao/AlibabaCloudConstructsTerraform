@@ -54,3 +54,10 @@ variable "function_template_layer" {
   nullable    = true
   default     = null
 }
+
+variable "function_env_vars" {
+  description = "Environment variables to be set for the function"
+  type        = map(string)
+  nullable    = true
+  default     = null
+}
