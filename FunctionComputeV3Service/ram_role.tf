@@ -8,7 +8,6 @@ resource "alicloud_ram_role" "default_ram_role" {
         "Effect" : "Allow",
         "Principal" : {
           "Service" : [
-            "log.aliyuncs.com",
             "fc.aliyuncs.com"
           ]
         }
