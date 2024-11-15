@@ -4,7 +4,14 @@ resource "random_integer" "default" {
 }
 
 resource "alicloud_oss_bucket" "function_deployment_bucket" {
-  bucket = "fc-deployment-${lower(var.function_name)}-${random_integer.default.result}"
+  bucket                                   = "fc-deployment-${lower(var.function_name)}-${random_integer.default.result}"
+  redundancy_type                          = "LRS"
+  storage_class                            = "Standard"
+  force_destroy                            = false
+  lifecycle_rule_allow_same_action_overlap = false
+  access_monitor {
+    status = "Disabled"
+  }
 }
 
 data "archive_file" "source" {
