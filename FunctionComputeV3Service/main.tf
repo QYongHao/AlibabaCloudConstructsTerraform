@@ -14,10 +14,25 @@ resource "alicloud_oss_bucket" "function_deployment_bucket" {
   }
 }
 
+# Null resource to force re-evaluation
+resource "null_resource" "refresh_trigger" {
+  triggers = {
+    timestamp = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Refreshing archive_file...'"
+  }
+}
+
+# Archive file data resource
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = var.function_dir
   output_path = "${path.module}/function.zip"
+
+  # Ensure this data source is re-evaluated when the null_resource changes
+  depends_on = [null_resource.refresh_trigger]
 }
 
 resource "alicloud_oss_bucket_object" "function" {
