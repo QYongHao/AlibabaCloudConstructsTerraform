@@ -29,7 +29,7 @@ resource "null_resource" "refresh_trigger" {
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = var.function_dir
-  output_path = "${path.module}/function.zip"
+  output_path = "${path.module}/function-${timestamp()}.zip"
 
   # Ensure this data source is re-evaluated when the null_resource changes
   depends_on = [null_resource.refresh_trigger]
