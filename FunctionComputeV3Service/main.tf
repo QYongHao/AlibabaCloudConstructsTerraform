@@ -21,7 +21,7 @@ resource "null_resource" "refresh_trigger" {
   }
 
   provisioner "local-exec" {
-    command = "echo 'Refreshing archive_file...'"
+    command = "npm run --prefix ${var.function_dir} build"
   }
 }
 
