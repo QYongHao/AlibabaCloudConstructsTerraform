@@ -61,3 +61,10 @@ variable "function_env_vars" {
   nullable    = true
   default     = null
 }
+
+variable "custom_domain_name" {
+  description = "Custom domain name for HTTP function"
+  type = string
+  nullable = true
+  default = null
+}

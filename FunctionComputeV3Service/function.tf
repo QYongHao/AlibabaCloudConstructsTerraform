@@ -21,7 +21,7 @@ resource "alicloud_fcv3_function" "function" {
     oss_object_name = alicloud_oss_bucket_object.function.key
   }
   environment_variables = var.function_env_vars
-  internet_access = true
+  internet_access       = true
 }
 
 resource "alicloud_fcv3_trigger" "function" {
@@ -36,4 +36,26 @@ resource "alicloud_fcv3_trigger" "function" {
     disableURLInternet : false,
     methods : ["POST"]
   })
+}
+
+resource "alicloud_fcv3_custom_domain" "function" {
+  count              = var.custom_domain_name != null ? 1 : 0
+  custom_domain_name = var.custom_domain_name
+  protocol           = "HTTP"
+  route_config {
+    routes {
+      function_name = alicloud_fcv3_function.function.function_name
+      qualifier     = "LATEST"
+      path          = "/*"
+      methods       = ["POST"]
+    }
+  }
+
+  waf_config {
+    enable_waf = false
+  }
+
+  auth_config {
+    auth_type = "anonymous"
+  }
 }
