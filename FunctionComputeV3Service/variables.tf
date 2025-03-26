@@ -68,3 +68,13 @@ variable "custom_domain_name" {
   nullable = true
   default = null
 }
+
+variable "alicloud_account_id" {
+  description = "Your Alibaba Cloud account ID"
+  type        = string
+}
+
+variable "alicloud_region" {
+  description = "The region where Function Compute is deployed (e.g., us-west-1)"
+  type        = string
+}

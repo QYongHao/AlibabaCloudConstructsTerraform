@@ -59,3 +59,22 @@ resource "alicloud_fcv3_custom_domain" "function" {
     auth_type = "anonymous"
   }
 }
+
+locals {
+  domain_parts = split(".", var.custom_domain_name)
+  # Extract the last two parts for the root domain (e.g., "stevenssportinggoods.com")
+  root_domain = join(".", slice(local.domain_parts, length(local.domain_parts) - 2, length(local.domain_parts)))
+  # Extract all parts except the last two for the subdomain (e.g., "api")
+  subdomain = join(".", slice(local.domain_parts, 0, length(local.domain_parts) - 2))
+  # Generate the CNAME value in the required format
+  fc_cname_value = "${var.alicloud_account_id}.${var.alicloud_region}-internal.fc.aliyuncs.com"
+}
+
+resource "alicloud_dns_record" "function" {
+  count       = var.custom_domain_name != null ? 1 : 0
+  name        = local.root_domain # e.g., "stevenssportinggoods.com"
+  host_record = local.subdomain   # e.g., "api"
+  type        = "CNAME"
+  value       = local.fc_cname_value # e.g., "123456789.us-west-1-internal.fc.aliyuncs.com"
+  ttl         = 600
+}
