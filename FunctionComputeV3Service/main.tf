@@ -21,7 +21,7 @@ resource "null_resource" "refresh_trigger" {
   }
 
   provisioner "local-exec" {
-    command = "npm run --prefix ${var.function_dir} build"
+    command = "npm --prefix ${var.function_dir} install && npm run --prefix ${var.function_dir} build"
   }
 }
 
